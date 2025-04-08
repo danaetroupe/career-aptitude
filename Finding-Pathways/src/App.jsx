@@ -12,7 +12,8 @@ function LandingPage() {
 
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
-      strings: ['Discover your ideal career path', 'Find your perfect major', 'Plan your future'],
+      strings: ['Discover your ideal <span class="highlight">career</span> path', 'Find your perfect <span class="highlight">major</span>', 'Plan your <span class="highlight">future</span>'],
+      contentType: 'html',
       typeSpeed: 50,
       backSpeed: 30,
       loop: true
@@ -24,7 +25,7 @@ function LandingPage() {
   return (
     <main className="landing-page">
       <div className="content">
-        <h1>Finding Pathways</h1>
+        <div className="brand">Career Compass</div>
         <div className="typing-container">
           <span ref={typedRef}></span>
         </div>

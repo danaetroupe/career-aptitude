@@ -1,3 +1,6 @@
+body {
+  font-family: 'Aileron', sans-serif;
+}
 
 .question-page {
   padding: 2rem;
@@ -16,7 +19,7 @@
 
 .progress {
   height: 100%;
-  background: #57cc02;
+  background: #42b8fd;
   transition: width 0.3s ease;
 }
 
@@ -31,6 +34,7 @@
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #235391;
 }
 
 .answer-scale {
@@ -49,6 +53,7 @@
   background: white;
   cursor: pointer;
   transition: all 0.2s;
+  color: #235391;
 }
 
 .scale-button.selected {
@@ -59,7 +64,7 @@
 .continue-button {
   margin-top: 2rem;
   padding: 1rem 2rem;
-  background: #57cc02;
+  background: #42b8fd;
   color: white;
   border: none;
   border-radius: 30px;
@@ -72,5 +77,5 @@
 }
 
 .continue-button:hover {
-  background: #4ab802;
+  background: #319cd9;
 }
