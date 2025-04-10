@@ -7,13 +7,22 @@ const client = new MongoClient(uri);
 export async function connectDB() {
   try {
     await client.connect();
+    // Test the connection
+    await client.db().admin().ping();
+    console.log('✅ Successfully connected to MongoDB');
     return client.db('career-info');
   } catch (error) {
-    console.error('Database connection failed:', error);
+    console.error('❌ Database connection failed:', error);
     throw error;
   }
 }
 
 export async function closeDB() {
-  await client.close();
+  try {
+    await client.close();
+    console.log('Database connection closed');
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+    throw error;
+  }
 }
