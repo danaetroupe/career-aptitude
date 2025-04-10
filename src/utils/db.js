@@ -2,13 +2,15 @@
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGO_CONNECT || "mongodb://localhost:27017";
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  ssl: true,
+  tls: true,
+  tlsAllowInvalidCertificates: true
+});
 
 export async function connectDB() {
   try {
     await client.connect();
-    // Test the connection
-    await client.db().admin().ping();
     console.log('✅ Successfully connected to MongoDB');
     return client.db('career-aptitude');
   } catch (error) {
