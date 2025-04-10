@@ -13,7 +13,7 @@ function QuestionPage() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/questions');
+        const res = await fetch('http://0.0.0.0:5000/api/questions');
         const data = await res.json();
         setQuestions(data.map((q, index) => ({
           id: q._id,
