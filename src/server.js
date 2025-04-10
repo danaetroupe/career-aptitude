@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import questionsRouter from "./api/questions.js";
+import { connectDB } from "./utils/db.js";
 
 const app = express();
 const port = 5000;
