@@ -8,7 +8,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import json
 
-load_dotenv()
+load_dotenv(dotenv_path="/config/.env")
 
 ROOT_URL = "https://www.mynextmove.org"
 CONNECTION_STRING = os.getenv('MONGO_CONNECT')
@@ -142,7 +142,20 @@ def loadQuestions():
 
     result = questions_collection.insert_many(questions)
     
+def remove_agree_phrase():
+    # Loop through all questions and update them
+    for question in questions_collection.find():
+        updated_question = question['question'].replace('How strongly do you agree:', '').strip()
+        
+        # Update the question in the collection
+        questions_collection.update_one(
+            {'_id': question['_id']},  # Find the document by its _id
+            {'$set': {'question': updated_question}}  # Set the updated question
+        )
+    print('complete')
+        
+        
 def main():
-    loadQuestions()
+    remove_agree_phrase()
 
 main()
