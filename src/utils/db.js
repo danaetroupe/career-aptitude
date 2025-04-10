@@ -10,7 +10,7 @@ export async function connectDB() {
     // Test the connection
     await client.db().admin().ping();
     console.log('✅ Successfully connected to MongoDB');
-    return client.db('career-info');
+    return client.db('career-aptitude');
   } catch (error) {
     console.error('❌ Database connection failed:', error);
     throw error;
