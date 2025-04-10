@@ -4,8 +4,20 @@ import csv
 import pandas
 import time, random
 import os
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import json
+
+load_dotenv()
 
 ROOT_URL = "https://www.mynextmove.org"
+CONNECTION_STRING = os.getenv('MONGO_CONNECT')
+
+# Connect to database
+client = MongoClient(CONNECTION_STRING)
+database = client['career-info']
+info_collection = database['information']
+questions_collection = database['questions']
 
 def open_html(path):
     with open(path, 'rb') as f:
@@ -73,7 +85,64 @@ def import_pages():
         save_html(r.content, file_path)
         time.sleep(random.uniform(1, 5))
 
+def gather_page_data(file):
+    page = open_html(file)
+    soup = BeautifulSoup(page, 'html.parser')
+    
+    page_data = {}
+    
+    # Select career title
+    page_data['title'] = soup.select_one('.main').get_text()
+    
+    # Select page content
+    sections = soup.find_all('div', class_='report-section')
+    for section in sections:
+        section_content = []
+        title = section.find('h2', class_='report-section-header').get_text(strip=True)
+        if title == "Technology": # skip all sections after technology
+            break
+        # get all section content
+        content = section.select('.subsec li')
+        content = content or section.select('.my-0 li')
+        for element in content:
+            section_content.append(element.get_text())
+        page_data[title] = section_content
+        
+    # Put info in mongoDB database
+    info_collection.insert_one(page_data)
+    
+    # Check results are correct
+    print(page_data)
+    
+def getAttributes():
+    unique_attributes = {
+        "Knowledge": set(),
+        "Skills": set(),
+        "Abilities": set(),
+        "Personality": set()
+    }
+
+    for doc in info_collection.find():
+        for key in unique_attributes.keys():
+            if key in doc and isinstance(doc[key], list):
+                unique_attributes[key].update(doc[key])
+
+    # Convert sets to sorted lists for readability
+    for key in unique_attributes:
+        unique_attributes[key] = sorted(list(unique_attributes[key]))
+
+    for category, items in unique_attributes.items():
+        print(f"\n{category} ({len(items)} items):")
+        for item in items:
+            print(f"- {item}")
+
+def loadQuestions():
+    with open('data/career_questions.json', 'r', encoding='utf-8') as file:
+        questions = json.load(file)
+
+    result = questions_collection.insert_many(questions)
+    
 def main():
-    import_pages()
+    loadQuestions()
 
 main()

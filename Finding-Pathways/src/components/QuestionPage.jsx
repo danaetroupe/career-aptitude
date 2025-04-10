@@ -11,14 +11,25 @@ function QuestionPage() {
   const questionsPerPage = 10;
 
   useEffect(() => {
-    // Mock questions data since API isn't set up yet
-    const mockQuestions = Array.from({ length: 50 }, (_, i) => ({
-      id: i + 1,
-      text: `Question ${i + 1}: This is a sample career assessment question.`
-    }));
-    setQuestions(mockQuestions);
+    const fetchQuestions = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/questions');
+        const data = await res.json();
+        setQuestions(data.map((q, index) => ({
+          id: q._id,
+          text: q.question,
+          category: q.category,
+          topic: q.topic,
+          weight: q.weight
+        })));
+      } catch (err) {
+        console.error('Error fetching questions:', err);
+      }
+    };
+  
+    fetchQuestions();
   }, []);
-
+  
   const handleAnswer = (questionId, value) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
   };

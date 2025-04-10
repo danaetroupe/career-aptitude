@@ -21,6 +21,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "mongodb": "^6.15.0",
     "react-router-dom": "^7.4.1",
     "typed.js": "^2.1.0"
