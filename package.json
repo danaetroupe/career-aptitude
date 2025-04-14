@@ -5,7 +5,12 @@
   "description": "React TypeScript on Replit, using Vite bundler",
   "scripts": {
     "dev": "vite",
+    "start": "node server.js",
+    "server": "node src/server.js",
+    "client": "vite",
+    "dev:both": "concurrently \"npm run server\" \"npm run client\"",
     "build": "vite build",
+    "heroku-postbuild": "npm install && npm run build",
     "preview": "vite preview"
   },
   "keywords": [],
@@ -21,11 +26,15 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "mongodb": "^6.15.0",
     "react-router-dom": "^7.4.1",
     "typed.js": "^2.1.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

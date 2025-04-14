@@ -1,9 +1,15 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import { connectDB } from "./utils/db.js";
 
+// Get directory name in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -26,11 +32,22 @@ connectDB()
       }
     });
 
-    app.listen(port, "0.0.0.0", () => {
-      console.log(`Server running on http://0.0.0.0:${port}`);
+    // Serve static files from the React app build directory in production
+    if (process.env.NODE_ENV === 'production') {
+      // Serve static files from the React frontend app
+      app.use(express.static(path.join(__dirname, '../dist')));
+
+      // Handle React routing, return all requests to React app
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../dist/index.html'));
+      });
+    }
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
       console.log('Try these endpoints:');
-      console.log('- Health check: http://0.0.0.0:5000/health');
-      console.log('- Questions API: http://0.0.0.0:5000/api/questions');
+      console.log(`- Health check: http://localhost:${PORT}/health`);
+      console.log(`- Questions API: http://localhost:${PORT}/api/questions`);
     });
   })
   .catch(err => {
