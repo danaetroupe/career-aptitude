@@ -20,7 +20,7 @@
   top: 20px;
   left: 20px;
   font-family: 'Aileron', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: white;
 }
 
@@ -39,7 +39,7 @@
   background-color: #42b8fd;
   color: white;
   border: none;
-  padding: 1.2rem 3rem;
+  padding: 1rem 2rem;
   font-size: 1.5rem;
   font-family: 'Aileron', sans-serif;
   border-radius: 30px;
@@ -51,7 +51,7 @@
 .cta-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(35, 83, 145, 0.4);
-  background-color: #235391;
+  background-color: #0f2849;
 }
 
 .typed-cursor {

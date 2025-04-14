@@ -8,10 +8,11 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import json
 
-load_dotenv(dotenv_path="/config/.env")
+load_dotenv(dotenv_path='config/.env')
 
 ROOT_URL = "https://www.mynextmove.org"
 CONNECTION_STRING = os.getenv('MONGO_CONNECT')
+print("Connection string:", CONNECTION_STRING)
 
 # Connect to database
 client = MongoClient(CONNECTION_STRING)
