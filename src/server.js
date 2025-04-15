@@ -32,16 +32,17 @@ connectDB()
       }
     });
 
-    // // Serve static files from the React app build directory in production
-    // if (process.env.NODE_ENV === 'production') {
-    //   // Serve static files from the React frontend app
-    //   app.use(express.static(path.join(__dirname, '../dist')));
-
-    //   // Handle React routing, return all requests to React app
-    //   app.get('*', (req, res) => {
-    //     res.sendFile(path.join(__dirname, '../dist/index.html'));
-    //   });
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      // Serve static files first
+      app.use(express.static(path.join(__dirname, '../dist')));
+      
+      // All your API routes should be BEFORE this line
+      
+      // Then the catch-all route
+      app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../dist/index.html'));
+      });
+    }
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
