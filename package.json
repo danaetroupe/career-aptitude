@@ -5,7 +5,7 @@
   "description": "React TypeScript on Replit, using Vite bundler",
   "scripts": {
     "dev": "vite",
-    "start": "node src/server.js",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node src/server.js",
     "client": "vite",
     "dev:both": "concurrently \"npm run server\" \"npm run client\"",
