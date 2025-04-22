@@ -13,7 +13,11 @@ function QuestionPage() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/questions');
+        const baseUrl = process.env.NODE_ENV === 'production' 
+          ? process.env.API_URL || window.location.origin  // Use the same origin in production
+          : 'http://localhost:5000';
+
+        const res = await fetch(`${baseUrl}/api/questions`);
         const data = await res.json();
         setQuestions(data.map((q, index) => ({
           id: q._id,
